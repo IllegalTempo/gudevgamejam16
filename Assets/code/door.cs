@@ -24,8 +24,6 @@ public class door : Selectable, IFreezable
     }
     private void Awake()
     {
-        // Record closed position at startup
-        closedPosition = rb != null ? rb.position : transform.position;
     }
     private void OnDrawGizmosSelected()
     {
@@ -53,9 +51,11 @@ public class door : Selectable, IFreezable
 
     public void onOpen()
     {
+
     }
     public void onClose()
     {
+
     }
 
     
