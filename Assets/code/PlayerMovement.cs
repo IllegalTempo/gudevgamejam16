@@ -261,7 +261,11 @@ public class PlayerMovement : MonoBehaviour
             {
 
                 before.onLookedAt();
-                GameCore.Instance.interaction_pickup.SetActive(true);
+                if(before is Item)
+                {
+                    GameCore.Instance.interaction_pickup.SetActive(true);
+
+                }
 
                 if (before is IFreezable f)
                 {
