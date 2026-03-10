@@ -19,6 +19,7 @@ public class door : Selectable, IFreezable
     {
         IsFrozen = true;
         meshRenderer.material = GameCore.Instance.BlackWhiteMat;
+        rb.isKinematic = true;
 
 
     }
@@ -27,6 +28,7 @@ public class door : Selectable, IFreezable
     {
         IsFrozen = false;
         meshRenderer.material = material;
+        rb.isKinematic = false;
 
     }
     private void Awake()

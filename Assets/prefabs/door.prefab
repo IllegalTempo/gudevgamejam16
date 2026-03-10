@@ -151,10 +151,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 320e85dfdfeadbc46a39c79c409cf603, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::door
-  outline: {fileID: 0}
+  outline: {fileID: 6999013623254546990}
   ClickTimer: 0
   rb: {fileID: 4571616812081546059}
   target: {x: 0, y: 0, z: 0}
+  meshRenderer: {fileID: 1600678874153719293}
 --- !u!65 &168468599711427121
 BoxCollider:
   m_ObjectHideFlags: 0
