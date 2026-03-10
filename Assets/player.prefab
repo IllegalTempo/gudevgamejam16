@@ -953,7 +953,7 @@ MonoBehaviour:
   sprintSpeed: 8
   jumpForce: 10
   airControl: 0.3
-  mouseSensitivity: 4
+  mouseSensitivity: 8
   maxLookAngle: 90
   groundCheck: {fileID: 6329814958817772575}
   groundDistance: 0.4
@@ -967,6 +967,8 @@ MonoBehaviour:
   lookInput: {x: 0, y: 0}
   seenObject: {fileID: 0}
   HoldingItem: {fileID: 0}
+  FreezeAmmo: 0
+  ContinueAmmo: 0
   displays:
   - {fileID: 1939346399001996257}
   - {fileID: 5728444154639024254}
