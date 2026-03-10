@@ -949,8 +949,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   outline: {fileID: 0}
   ClickTimer: 0
-  walkSpeed: 5
-  sprintSpeed: 8
+  walkSpeed: 10
+  sprintSpeed: 20
   jumpForce: 10
   airControl: 0.3
   mouseSensitivity: 8
