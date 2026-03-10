@@ -6,7 +6,7 @@ using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
 using static UnityEditor.Progress;
 
-public class PlayerMovement : Selectable,IFreezable
+public class PlayerMovement : Selectable, IFreezable, IResetable
 {
     [Header("Movement Settings")]
     public float walkSpeed = 5f;
@@ -50,6 +50,7 @@ public class PlayerMovement : Selectable,IFreezable
     private Dictionary<Renderer, Material> originalMaterials = new Dictionary<Renderer, Material>();
 
     public bool IsFrozen { get; set; }
+    private Vector3 originPosition;
 
     void Awake()
     {
@@ -59,12 +60,14 @@ public class PlayerMovement : Selectable,IFreezable
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        originPosition = transform.position;
         //setoriginal materials
-        
+
 
 
         resetUI();
     }
+
     public void Init(bool clone)
     {
         gameObject.name = clone ? "Clone" : "Player";
@@ -117,14 +120,15 @@ public class PlayerMovement : Selectable,IFreezable
     }
 
 
-    void Update()
+    protected override void Update()
     {
+        base.Update();
         moveInput = playerInput.player.movement.ReadValue<Vector2>();
         lookInput = playerInput.player.look.ReadValue<Vector2>();
         isSprinting = playerInput.player.sprint.IsPressed();
-            if (frozegunTimer > 0)
-            {
-                frozegunTimer -= Time.deltaTime;
+        if (frozegunTimer > 0)
+        {
+            frozegunTimer -= Time.deltaTime;
         }
 
     }
@@ -137,8 +141,8 @@ public class PlayerMovement : Selectable,IFreezable
     }
     private void LateUpdate()
     {
-        if(!IsFrozen)
-        HandleMouseLook();
+        if (!IsFrozen)
+            HandleMouseLook();
 
     }
     private void pickUpSelected(InputAction.CallbackContext context)
@@ -174,7 +178,7 @@ public class PlayerMovement : Selectable,IFreezable
     private IEnumerator useFreezeGun(InputAction.CallbackContext context)
     {
         if (frozegunTimer > 0) yield break;
-        frozegunTimer = 0.45f/0.6f;
+        frozegunTimer = 0.45f / 0.6f;
         animator.SetTrigger("trigger_freeze");
         yield return new WaitForSeconds(0.45f);
         if (seenObject is IFreezable f)
@@ -182,12 +186,36 @@ public class PlayerMovement : Selectable,IFreezable
             if (seenObject is Item i && i.isPickedUp) yield break;
             if (f.IsFrozen)
             {
-                f.onUnfreeze();
+                if (ContinueAmmo < 1)
+                {
+                    GameCore.Instance.displayStatusText("You run out of Recover Ammo!");
+
+                }
+                else
+                {
+                    f.onUnfreeze();
+                    ContinueAmmo--;
+                    GameCore.Instance.continueAmmoText.text = ContinueAmmo.ToString();
+
+                }
+
             }
             else
             {
-                f.onFreeze();
+                if (FreezeAmmo < 1)
+                {
+                    GameCore.Instance.displayStatusText("You run out of Time Freeze Ammo!");
+
+                }
+                else
+                {
+                    f.onFreeze();
+                    FreezeAmmo--;
+                    GameCore.Instance.freezeAmmoText.text = FreezeAmmo.ToString();
+                }
+
             }
+
         }
     }
 
@@ -245,15 +273,15 @@ public class PlayerMovement : Selectable,IFreezable
     }
     void FixedUpdate()
     {
-        if(!IsFrozen)
+        if (!IsFrozen)
         {
             CheckGround();
             HandleMovement();
             checkLookat();
         }
-        
+
     }
-    
+
     private void checkLookat()
     {
         Ray ray = new Ray(cam.transform.position, cam.transform.forward);
@@ -298,7 +326,7 @@ public class PlayerMovement : Selectable,IFreezable
             {
 
                 before.onLookedAt();
-                if(before is Item)
+                if (before is Item)
                 {
                     GameCore.Instance.interaction_pickup.SetActive(true);
 
@@ -306,10 +334,11 @@ public class PlayerMovement : Selectable,IFreezable
 
                 if (before is IFreezable f)
                 {
-                    if(f is Item i && i.isPickedUp)
+                    if (f is Item i && i.isPickedUp)
                     {
 
-                    } else
+                    }
+                    else
                     {
                         GameCore.Instance.interaction_freeze.SetActive(true);
 
@@ -319,12 +348,13 @@ public class PlayerMovement : Selectable,IFreezable
                         GameCore.Instance.freezeText.text = "unfreeze";
                         GameCore.Instance.interaction_pickup.SetActive(false);
 
-                    } else
+                    }
+                    else
                     {
                         GameCore.Instance.freezeText.text = "freeze";
                     }
 
-                } 
+                }
             }
             else
             {
@@ -340,8 +370,9 @@ public class PlayerMovement : Selectable,IFreezable
 
     void HandleMouseLook()
     {
-        float mouseX = lookInput.x * mouseSensitivity * Time.deltaTime;
-        float mouseY = lookInput.y * mouseSensitivity * Time.deltaTime;
+        // Use unscaled delta so look sensitivity is not affected by Time.timeScale changes
+        float mouseX = lookInput.x * mouseSensitivity * Time.unscaledDeltaTime;
+        float mouseY = lookInput.y * mouseSensitivity * Time.unscaledDeltaTime;
 
         xRotation -= mouseY;
         xRotation = Mathf.Clamp(xRotation, -maxLookAngle, maxLookAngle);
@@ -389,7 +420,7 @@ public class PlayerMovement : Selectable,IFreezable
     public void onFreeze()
     {
         IsFrozen = true;
-        foreach(Renderer renderer in displays)
+        foreach (Renderer renderer in displays)
         {
             renderer.material = GameCore.Instance.BlackWhiteMat;
         }
@@ -402,5 +433,19 @@ public class PlayerMovement : Selectable,IFreezable
         {
             renderer.material = originalMaterials[renderer];
         }
+    }
+
+    public void onReset()
+    {
+        IsFrozen = false;
+        HoldingItem = null;
+        foreach (Renderer renderer in displays)
+        {
+            renderer.material = originalMaterials[renderer];
+        }
+        transform.position = originPosition;
+        FreezeAmmo = 0;
+        ContinueAmmo = 0;
+        resetUI();
     }
 }

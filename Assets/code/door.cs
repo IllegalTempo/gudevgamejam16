@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class door : Selectable, IFreezable
+public class door : Selectable, IFreezable, IResetable
 {
     [SerializeField]
     private Rigidbody rb;
@@ -81,5 +81,14 @@ public class door : Selectable, IFreezable
 
     }
 
+    public void onReset()
+    {
+        movingtarget = orgPos;
+        meshRenderer.material = material;
+        rb.isKinematic = false;
+        IsFrozen = false;
 
+
+
+    }
 }

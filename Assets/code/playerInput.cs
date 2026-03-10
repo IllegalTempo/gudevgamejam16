@@ -154,6 +154,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""timespeed"",
+                    ""type"": ""Value"",
+                    ""id"": ""5f09a09c-a163-413e-bc66-d27583d9f916"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -277,6 +286,17 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""freeze"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""92f82770-4a5a-47bb-be5e-d0705d4776a9"",
+                    ""path"": ""<Mouse>/scroll"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""timespeed"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -292,6 +312,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_player_pickup = m_player.FindAction("pickup", throwIfNotFound: true);
         m_player_swap = m_player.FindAction("swap", throwIfNotFound: true);
         m_player_freeze = m_player.FindAction("freeze", throwIfNotFound: true);
+        m_player_timespeed = m_player.FindAction("timespeed", throwIfNotFound: true);
     }
 
     ~@PlayerInput()
@@ -379,6 +400,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_player_pickup;
     private readonly InputAction m_player_swap;
     private readonly InputAction m_player_freeze;
+    private readonly InputAction m_player_timespeed;
     /// <summary>
     /// Provides access to input actions defined in input action map "player".
     /// </summary>
@@ -418,6 +440,10 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "player/freeze".
         /// </summary>
         public InputAction @freeze => m_Wrapper.m_player_freeze;
+        /// <summary>
+        /// Provides access to the underlying input action "player/timespeed".
+        /// </summary>
+        public InputAction @timespeed => m_Wrapper.m_player_timespeed;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -465,6 +491,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @freeze.started += instance.OnFreeze;
             @freeze.performed += instance.OnFreeze;
             @freeze.canceled += instance.OnFreeze;
+            @timespeed.started += instance.OnTimespeed;
+            @timespeed.performed += instance.OnTimespeed;
+            @timespeed.canceled += instance.OnTimespeed;
         }
 
         /// <summary>
@@ -497,6 +526,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @freeze.started -= instance.OnFreeze;
             @freeze.performed -= instance.OnFreeze;
             @freeze.canceled -= instance.OnFreeze;
+            @timespeed.started -= instance.OnTimespeed;
+            @timespeed.performed -= instance.OnTimespeed;
+            @timespeed.canceled -= instance.OnTimespeed;
         }
 
         /// <summary>
@@ -586,5 +618,12 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnFreeze(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "timespeed" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnTimespeed(InputAction.CallbackContext context);
     }
 }

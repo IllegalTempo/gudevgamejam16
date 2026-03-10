@@ -951,7 +951,7 @@ MonoBehaviour:
   ClickTimer: 0
   walkSpeed: 10
   sprintSpeed: 20
-  jumpForce: 10
+  jumpForce: 18
   airControl: 0.3
   mouseSensitivity: 8
   maxLookAngle: 90
