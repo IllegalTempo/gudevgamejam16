@@ -5,7 +5,7 @@ using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
 using static UnityEditor.Progress;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : Selectable,IFreezable
 {
     [Header("Movement Settings")]
     public float walkSpeed = 5f;
@@ -44,6 +44,8 @@ public class PlayerMovement : MonoBehaviour
 
     public Renderer[] displays;
     private float frozegunTimer = 0f;
+
+    public bool IsFrozen { get; set; }
 
     void Awake()
     {
@@ -124,6 +126,7 @@ public class PlayerMovement : MonoBehaviour
     }
     private void LateUpdate()
     {
+        if(!IsFrozen)
         HandleMouseLook();
 
     }
@@ -229,9 +232,13 @@ public class PlayerMovement : MonoBehaviour
     }
     void FixedUpdate()
     {
-        CheckGround();
-        HandleMovement();
-        checkLookat();
+        if(!IsFrozen)
+        {
+            CheckGround();
+            HandleMovement();
+            checkLookat();
+        }
+        
     }
     
     private void checkLookat()
@@ -239,12 +246,29 @@ public class PlayerMovement : MonoBehaviour
         Ray ray = new Ray(cam.transform.position, cam.transform.forward);
         RaycastHit hit;
         Selectable before = seenObject;
-        if (Physics.Raycast(ray, out hit, 100f, GameCore.Instance.SelectableItems))
+        // Cast all hits and pick the first one that is not part of this player (or its children)
+        RaycastHit[] hits = Physics.RaycastAll(ray, 100f, GameCore.Instance.SelectableItems);
+        if (hits.Length > 0)
         {
-
-            seenObject = hit.collider.GetComponent<Selectable>();
-            if (seenObject == null) return;
-
+            System.Array.Sort(hits, (a, b) => a.distance.CompareTo(b.distance));
+            RaycastHit? valid = null;
+            foreach (var h in hits)
+            {
+                if (h.collider == null) continue;
+                if (h.collider.transform.IsChildOf(transform)) continue; // ignore self
+                valid = h;
+                break;
+            }
+            if (valid.HasValue)
+            {
+                hit = valid.Value;
+                seenObject = hit.collider.GetComponent<Selectable>();
+                if (seenObject == null) return;
+            }
+            else
+            {
+                seenObject = null;
+            }
         }
         else
         {
@@ -347,5 +371,15 @@ public class PlayerMovement : MonoBehaviour
             rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
+    }
+
+    public void onFreeze()
+    {
+        IsFrozen = true;
+    }
+
+    public void onUnfreeze()
+    {
+        IsFrozen = false;
     }
 }
