@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.PlayerLoop;
@@ -44,6 +45,7 @@ public class PlayerMovement : Selectable,IFreezable
 
     public Renderer[] displays;
     private float frozegunTimer = 0f;
+    private Dictionary<Renderer, Material> originalMaterials = new Dictionary<Renderer, Material>();
 
     public bool IsFrozen { get; set; }
 
@@ -55,6 +57,10 @@ public class PlayerMovement : Selectable,IFreezable
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        //setoriginal materials
+        
+
+
         resetUI();
     }
     public void Init(bool clone)
@@ -73,7 +79,10 @@ public class PlayerMovement : Selectable,IFreezable
             togglePlayerElements(true);
 
         }
-
+        foreach (Renderer r in displays)
+        {
+            originalMaterials[r] = r.material;
+        }
 
     }
     private void resetUI()
@@ -376,10 +385,18 @@ public class PlayerMovement : Selectable,IFreezable
     public void onFreeze()
     {
         IsFrozen = true;
+        foreach(Renderer renderer in displays)
+        {
+            renderer.material = GameCore.Instance.BlackWhiteMat;
+        }
     }
 
     public void onUnfreeze()
     {
         IsFrozen = false;
+        foreach (Renderer renderer in displays)
+        {
+            renderer.material = originalMaterials[renderer];
+        }
     }
 }

@@ -4,8 +4,10 @@ public class SceneSystem : MonoBehaviour
 {
     public GameObject playerSpawnpoint;
     public GameObject cloneSpawnpoint;
+    public GameObject GameCorePrefab;
     public void Start()
     {
+        Instantiate(GameCorePrefab);
         SpawnPlayer(false, playerSpawnpoint.transform);
         SpawnPlayer(true, cloneSpawnpoint.transform);
     }
