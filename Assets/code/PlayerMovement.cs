@@ -43,6 +43,8 @@ public class PlayerMovement : Selectable,IFreezable
     public Selectable seenObject;
     public Item HoldingItem;
 
+    public int FreezeAmmo = 0;
+    public int ContinueAmmo = 0;
     public Renderer[] displays;
     private float frozegunTimer = 0f;
     private Dictionary<Renderer, Material> originalMaterials = new Dictionary<Renderer, Material>();
@@ -234,6 +236,8 @@ public class PlayerMovement : Selectable,IFreezable
     }
     public void EnablePlayer()
     {
+        GameCore.Instance.freezeAmmoText.text = FreezeAmmo.ToString();
+        GameCore.Instance.continueAmmoText.text = ContinueAmmo.ToString();
         togglePlayerElements(true);
         //yield return WaitForTransitionAnimation("switchtimeline", -1, 1);
 

@@ -16,11 +16,16 @@ public class GameCore : MonoBehaviour
     public PlayerMovement clone;
     public Material cloneMat;
     public PlayerMovement currentPlayer;
+
+
     [Header("UI")]
     public GameObject interaction_pickup;
     public TMP_Text pickupText;
     public GameObject interaction_freeze;
     public TMP_Text freezeText;
+
+    public TMP_Text freezeAmmoText;
+    public TMP_Text continueAmmoText;
 
     private void Awake()
     {
