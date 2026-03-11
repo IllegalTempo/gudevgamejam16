@@ -35,6 +35,7 @@ public class PlayerMovement : Selectable, IFreezable, IResetable
     public Vector2 moveInput;
     public Vector2 lookInput;
     private bool isGrounded;
+    private int groundContacts = 0;
     private bool isSprinting;
     private float xRotation = 0f;
     private float currentAnimatorSpeed = 0f;
@@ -275,7 +276,6 @@ public class PlayerMovement : Selectable, IFreezable, IResetable
     {
         if (!IsFrozen)
         {
-            CheckGround();
             HandleMovement();
             checkLookat();
         }
@@ -381,9 +381,37 @@ public class PlayerMovement : Selectable, IFreezable, IResetable
         transform.Rotate(Vector3.up * mouseX);
     }
 
-    void CheckGround()
+
+    private bool CollisionIsGround(Collision col)
     {
-        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+        // Check layer mask
+        if ((groundMask.value & (1 << col.gameObject.layer)) == 0) return false;
+
+        // Check if any contact normal is pointing upwards enough to be considered ground
+        foreach (var contact in col.contacts)
+        {
+            if (Vector3.Dot(contact.normal, Vector3.up) > 0.5f)
+                return true;
+        }
+        return false;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (CollisionIsGround(collision))
+        {
+            groundContacts++;
+            isGrounded = groundContacts > 0;
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (CollisionIsGround(collision))
+        {
+            groundContacts = Mathf.Max(0, groundContacts - 1);
+            isGrounded = groundContacts > 0;
+        }
     }
 
     void HandleMovement()
@@ -424,6 +452,7 @@ public class PlayerMovement : Selectable, IFreezable, IResetable
         {
             renderer.material = GameCore.Instance.BlackWhiteMat;
         }
+        rb.isKinematic = true;
     }
 
     public void onUnfreeze()
@@ -433,6 +462,7 @@ public class PlayerMovement : Selectable, IFreezable, IResetable
         {
             renderer.material = originalMaterials[renderer];
         }
+        rb.isKinematic = false;
     }
 
     public void onReset()
@@ -446,6 +476,8 @@ public class PlayerMovement : Selectable, IFreezable, IResetable
         transform.position = originPosition;
         FreezeAmmo = 0;
         ContinueAmmo = 0;
+        GameCore.Instance.freezeAmmoText.text = "0";
+        GameCore.Instance.continueAmmoText.text = "0";
         resetUI();
     }
 }

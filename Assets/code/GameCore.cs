@@ -35,6 +35,11 @@ public class GameCore : MonoBehaviour
     private float baseFixedDeltaTime;
     public float timeScaleStep = 0.1f;
 
+    public TMP_Text timerText;
+
+    public GameObject endscreengroup;
+    public TMP_Text endScreenRecord;
+
     private void Awake()
     {
         playerInput = new PlayerInput();
@@ -49,7 +54,6 @@ public class GameCore : MonoBehaviour
             return;
         }
         Instance = this;
-        DontDestroyOnLoad(gameObject);
     }
     private void Update()
     {
@@ -67,6 +71,7 @@ public class GameCore : MonoBehaviour
                 // show feedback to player
             }
         }
+        
     }
     private void Start()
     {

@@ -7,12 +7,15 @@ public class SceneSystem : MonoBehaviour
     public GameObject cloneSpawnpoint;
     public GameObject GameCorePrefab;
     private IResetable[] resetables;
+    public float levelTimer = 0;
+
     public void Start()
     {
         Instantiate(GameCorePrefab);
         SpawnPlayer(false, playerSpawnpoint.transform);
         SpawnPlayer(true, cloneSpawnpoint.transform);
         resetables = FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None).OfType<IResetable>().ToArray();
+        GameCore.Instance.endscreengroup.SetActive(false);
     }
     public void SpawnPlayer(bool clone, Transform spawn)
     {
@@ -21,8 +24,31 @@ public class SceneSystem : MonoBehaviour
         player.Init(clone);
         
     }
+    private void Update()
+    {
+        levelTimer += Time.deltaTime;
+        GameCore.Instance.timerText.text = $"{levelTimer:00.##}";
+        if(Input.GetKeyDown(KeyCode.Return))
+        {
+            ResetScene();
+        }
+    }
+    public void FinishScene()
+    {
+        GameCore.Instance.endscreengroup.SetActive(true);
+        GameCore.Instance.endScreenRecord.text = $"Clock Elapsed: {levelTimer:00.##} seconds";
+        //go back to main screen after 5 seconds
+        Invoke("GoToMainMenu", 5f);
+
+    }
+    public void GoToMainMenu()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+    }
+
     public void ResetScene()
     {
+        levelTimer = 0;
         foreach (IResetable resetable in resetables)
         {
             resetable.onReset();
