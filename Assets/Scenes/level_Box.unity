@@ -1440,7 +1440,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 467789593420787346, guid: ebec9d09f9cdb38438788dc027511ab5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 437.12
+      value: 435.12
       objectReference: {fileID: 0}
     - target: {fileID: 467789593420787346, guid: ebec9d09f9cdb38438788dc027511ab5, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1448,7 +1448,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 467789593420787346, guid: ebec9d09f9cdb38438788dc027511ab5, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -394.12
+      value: -398.18
       objectReference: {fileID: 0}
     - target: {fileID: 467789593420787346, guid: ebec9d09f9cdb38438788dc027511ab5, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1689,6 +1689,7 @@ MonoBehaviour:
   playerSpawnpoint: {fileID: 1990277278}
   cloneSpawnpoint: {fileID: 538581613}
   GameCorePrefab: {fileID: 5959543666933815117, guid: bc351caff490c794d8b20e4d6f8dd3c6, type: 3}
+  levelTimer: 0
 --- !u!4 &2058508190
 Transform:
   m_ObjectHideFlags: 0
