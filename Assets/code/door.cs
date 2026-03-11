@@ -83,6 +83,7 @@ public class door : Selectable, IFreezable, IResetable
 
     public void onReset()
     {
+        Debug.Log($"[onReset] door.onReset called for {name}. orgPos={orgPos}\n" + new System.Diagnostics.StackTrace(true).ToString());
         movingtarget = orgPos;
         meshRenderer.material = material;
         rb.isKinematic = false;

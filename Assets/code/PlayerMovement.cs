@@ -118,12 +118,12 @@ public class PlayerMovement : Selectable, IFreezable, IResetable
     void OnDisable()
     {
         animator.SetFloat("speed", 0f);
+        unregister();
     }
 
 
     protected override void Update()
     {
-        base.Update();
         moveInput = playerInput.player.movement.ReadValue<Vector2>();
         lookInput = playerInput.player.look.ReadValue<Vector2>();
         isSprinting = playerInput.player.sprint.IsPressed();
@@ -433,7 +433,7 @@ public class PlayerMovement : Selectable, IFreezable, IResetable
 
         float targetSpeed = Mathf.Min(rb.linearVelocity.magnitude / walkSpeed, 1f);
         currentAnimatorSpeed = Mathf.Lerp(currentAnimatorSpeed, targetSpeed, Time.fixedDeltaTime / speedLerpDuration);
-        animator.SetFloat("speed", currentAnimatorSpeed);
+        //animator.SetFloat("speed", currentAnimatorSpeed);
     }
 
     void OnJump(InputAction.CallbackContext context)
@@ -473,6 +473,7 @@ public class PlayerMovement : Selectable, IFreezable, IResetable
         {
             renderer.material = originalMaterials[renderer];
         }
+        Debug.Log($"[onReset] PlayerMovement.onReset called for {name}. originPosition={originPosition}\n" + new System.Diagnostics.StackTrace(true).ToString());
         transform.position = originPosition;
         FreezeAmmo = 0;
         ContinueAmmo = 0;

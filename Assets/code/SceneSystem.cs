@@ -11,17 +11,22 @@ public class SceneSystem : MonoBehaviour
 
     public void Start()
     {
+        Debug.Log($"[SceneSystem] Start running. playerSpawn={playerSpawnpoint.transform.position}, cloneSpawn={cloneSpawnpoint.transform.position}");
         Instantiate(GameCorePrefab);
         SpawnPlayer(false, playerSpawnpoint.transform);
         SpawnPlayer(true, cloneSpawnpoint.transform);
         resetables = FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None).OfType<IResetable>().ToArray();
-        GameCore.Instance.endscreengroup.SetActive(false);
+        Debug.Log($"[SceneSystem] Found {resetables.Length} IResetable objects");
+        if (GameCore.Instance != null && GameCore.Instance.endscreengroup != null)
+            GameCore.Instance.endscreengroup.SetActive(false);
     }
     public void SpawnPlayer(bool clone, Transform spawn)
     {
 
+        Debug.Log($"[SceneSystem] Spawning player clone={clone} at {spawn.position}");
         PlayerMovement player = Instantiate(GameCore.Instance.playerPrefab, spawn.transform.position, spawn.transform.rotation).GetComponent<PlayerMovement>();
         player.Init(clone);
+        Debug.Log($"[SceneSystem] Spawned player instance {player.name} at {player.transform.position}");
         
     }
     private void Update()
@@ -49,6 +54,7 @@ public class SceneSystem : MonoBehaviour
     public void ResetScene()
     {
         levelTimer = 0;
+        Debug.Log("[SceneSystem] ResetScene called\n" + new System.Diagnostics.StackTrace(true).ToString());
         foreach (IResetable resetable in resetables)
         {
             resetable.onReset();

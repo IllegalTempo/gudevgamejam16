@@ -85,6 +85,7 @@ public class Item : Selectable, IFreezable, IResetable
 
     public void onReset()
     {
+        Debug.Log($"[onReset] Item.onReset called for {name}. initpos={initpos}\n" + new System.Diagnostics.StackTrace(true).ToString());
         onUnfreeze();
         transform.position = initpos;
         transform.rotation = initRot;
