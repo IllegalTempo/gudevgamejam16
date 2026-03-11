@@ -53,6 +53,7 @@ public class SceneSystem : MonoBehaviour
         {
             resetable.onReset();
         }
+
     }
 
 }

@@ -72,7 +72,7 @@ public class Item : Selectable, IFreezable, IResetable
             mr.material = GameCore.Instance.BlackWhiteMat;
         }
         IsFrozen = true;
-        rb.isKinematic = true;
+        rb.constraints = RigidbodyConstraints.FreezeAll;
     }
 
     public void onUnfreeze()
@@ -80,13 +80,15 @@ public class Item : Selectable, IFreezable, IResetable
         foreach (MeshRenderer mr in renderers)
         { mr.material = originalMaterial[mr]; }
         IsFrozen = false;
-        rb.isKinematic = false;
+        rb.constraints = RigidbodyConstraints.None;
     }
 
     public void onReset()
     {
         onUnfreeze();
+        onDrop();
         transform.position = initpos;
         transform.rotation = initRot;
+        
     }
 }

@@ -19,7 +19,6 @@ public class PlayerMovement : Selectable, IFreezable, IResetable
     public float maxLookAngle = 90f;
 
     [Header("Ground Check")]
-    public LayerMask groundMask;
 
     private PlayerInput playerInput;
     private Rigidbody rb;
@@ -33,7 +32,8 @@ public class PlayerMovement : Selectable, IFreezable, IResetable
     public Vector2 moveInput;
     public Vector2 lookInput;
     private bool isGrounded;
-    private int groundContacts = 0;
+    // Track colliders that are considered ground (only collisions with an upward normal)
+    private HashSet<Collider> groundColliders = new HashSet<Collider>();
     private bool isSprinting;
     private float xRotation = 0f;
     private float currentAnimatorSpeed = 0f;
@@ -383,16 +383,25 @@ public class PlayerMovement : Selectable, IFreezable, IResetable
 
     private void OnCollisionEnter(Collision collision)
     {
-        groundContacts++;
-        isGrounded = groundContacts > 0;
+        // Consider this collider ground only if any contact has a sufficiently upward normal.
+        foreach (ContactPoint contact in collision.contacts)
+        {
+            if (contact.normal.y > 0.65f)
+            {
+                groundColliders.Add(collision.collider);
+                break;
+            }
+        }
+        isGrounded = groundColliders.Count > 0;
 
     }
 
     private void OnCollisionExit(Collision collision)
     {
 
-        groundContacts = Mathf.Max(groundContacts - 1, 0);
-        isGrounded = groundContacts > 0;
+        // Remove the collider from ground set when collision ends
+        groundColliders.Remove(collision.collider);
+        isGrounded = groundColliders.Count > 0;
 
     }
 
@@ -462,5 +471,12 @@ public class PlayerMovement : Selectable, IFreezable, IResetable
         GameCore.Instance.freezeAmmoText.text = "0";
         GameCore.Instance.continueAmmoText.text = "0";
         resetUI();
+        if(gameObject.name == "Player")
+        {
+            EnablePlayer();
+        } else
+        {
+            DisablePlayer();
+        }
     }
 }
