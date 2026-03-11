@@ -19,8 +19,6 @@ public class PlayerMovement : Selectable, IFreezable, IResetable
     public float maxLookAngle = 90f;
 
     [Header("Ground Check")]
-    public Transform groundCheck;
-    public float groundDistance = 0.4f;
     public LayerMask groundMask;
 
     private PlayerInput playerInput;
@@ -382,36 +380,20 @@ public class PlayerMovement : Selectable, IFreezable, IResetable
     }
 
 
-    private bool CollisionIsGround(Collision col)
-    {
-        // Check layer mask
-        if ((groundMask.value & (1 << col.gameObject.layer)) == 0) return false;
-
-        // Check if any contact normal is pointing upwards enough to be considered ground
-        foreach (var contact in col.contacts)
-        {
-            if (Vector3.Dot(contact.normal, Vector3.up) > 0.5f)
-                return true;
-        }
-        return false;
-    }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (CollisionIsGround(collision))
-        {
-            groundContacts++;
-            isGrounded = groundContacts > 0;
-        }
+        groundContacts++;
+        isGrounded = groundContacts > 0;
+
     }
 
     private void OnCollisionExit(Collision collision)
     {
-        if (CollisionIsGround(collision))
-        {
-            groundContacts = Mathf.Max(0, groundContacts - 1);
-            isGrounded = groundContacts > 0;
-        }
+
+        groundContacts = Mathf.Max(groundContacts - 1, 0);
+        isGrounded = groundContacts > 0;
+
     }
 
     void HandleMovement()
@@ -419,18 +401,18 @@ public class PlayerMovement : Selectable, IFreezable, IResetable
         Vector3 moveDirection = transform.right * -moveInput.x + transform.forward * -moveInput.y;
         float currentSpeed = isSprinting ? sprintSpeed : walkSpeed;
 
-        if (isGrounded)
-        {
-            Vector3 targetVelocity = moveDirection * currentSpeed;
-            targetVelocity.y = rb.linearVelocity.y;
-            rb.linearVelocity = targetVelocity;
-        }
-        else
-        {
-            Vector3 airVelocity = moveDirection * currentSpeed * airControl;
-            rb.AddForce(airVelocity, ForceMode.Force);
-        }
+        //if (isGrounded)
+        //{
 
+        //}
+        //else
+        //{
+        //    Vector3 airVelocity = moveDirection * currentSpeed * airControl;
+        //    rb.AddForce(airVelocity, ForceMode.Force);
+        //}
+        Vector3 targetVelocity = moveDirection * currentSpeed;
+        targetVelocity.y = rb.linearVelocity.y;
+        rb.linearVelocity = targetVelocity;
         float targetSpeed = Mathf.Min(rb.linearVelocity.magnitude / walkSpeed, 1f);
         currentAnimatorSpeed = Mathf.Lerp(currentAnimatorSpeed, targetSpeed, Time.fixedDeltaTime / speedLerpDuration);
         //animator.SetFloat("speed", currentAnimatorSpeed);

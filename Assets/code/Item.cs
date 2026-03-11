@@ -37,7 +37,7 @@ public class Item : Selectable, IFreezable, IResetable
         base.Update();
         if (pickuped != null)
         {
-            rb.MovePosition(pickuped.cam.transform.position + pickuped.cam.transform.forward * 3);
+            rb.MovePosition(pickuped.cam.transform.position + pickuped.cam.transform.forward * 6);
         }
     }
     public void onPickUp(PlayerMovement who)
@@ -85,7 +85,6 @@ public class Item : Selectable, IFreezable, IResetable
 
     public void onReset()
     {
-        Debug.Log($"[onReset] Item.onReset called for {name}. initpos={initpos}\n" + new System.Diagnostics.StackTrace(true).ToString());
         onUnfreeze();
         transform.position = initpos;
         transform.rotation = initRot;

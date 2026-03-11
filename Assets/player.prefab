@@ -925,11 +925,9 @@ MonoBehaviour:
   walkSpeed: 10
   sprintSpeed: 20
   jumpForce: 18
-  airControl: 0.3
+  airControl: 1
   mouseSensitivity: 8
   maxLookAngle: 90
-  groundCheck: {fileID: 6329814958817772575}
-  groundDistance: 0.4
   groundMask:
     serializedVersion: 2
     m_Bits: 1

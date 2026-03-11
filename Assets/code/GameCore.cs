@@ -142,9 +142,13 @@ public class GameCore : MonoBehaviour
         if (currentPlayer == player) return clone;
         else return player;
     }
+    bool switching = false;
     public IEnumerator OnSwitchTimeLine()
     {
+        if (switching) yield break;
+        switching = true;
         yield return currentPlayer.DisablePlayer();
+        switching = false;
         otherPlayer().EnablePlayer();
     }
 
