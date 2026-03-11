@@ -37,7 +37,7 @@ public class Item : Selectable, IFreezable, IResetable
         base.Update();
         if (pickuped != null)
         {
-            rb.MovePosition(pickuped.cam.transform.position + pickuped.cam.transform.forward * 6);
+            rb.MovePosition(pickuped.cam.transform.position + pickuped.cam.transform.forward * 10);
         }
     }
     public void onPickUp(PlayerMovement who)

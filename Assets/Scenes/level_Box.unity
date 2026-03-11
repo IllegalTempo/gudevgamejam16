@@ -593,7 +593,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4800852735011565440, guid: 83eb3816294e7e5498939e7466961c25, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 205.56
+      value: 187.88998
       objectReference: {fileID: 0}
     - target: {fileID: 4800852735011565440, guid: 83eb3816294e7e5498939e7466961c25, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2848,7 +2848,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: fe48ed9c36239c047a7cd733d93a6f96, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -133.4
+      value: -127.9
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: fe48ed9c36239c047a7cd733d93a6f96, type: 3}
       propertyPath: m_LocalPosition.z
@@ -4349,6 +4349,7 @@ MonoBehaviour:
   ClickTimer: 0
   rb: {fileID: 4571616812165199133}
   target: {x: 42.92, y: 0, z: 0}
+  moveSpeed: 5
   meshRenderer: {fileID: 1600678873970500523}
 --- !u!65 &7664352413372204773
 BoxCollider:
