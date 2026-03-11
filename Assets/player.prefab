@@ -854,7 +854,6 @@ GameObject:
   - component: {fileID: 5743199687347045136}
   - component: {fileID: 5560582767699280404}
   - component: {fileID: 6534090020469884828}
-  - component: {fileID: 4345049590846080512}
   - component: {fileID: 6970676024741690333}
   m_Layer: 0
   m_Name: player
@@ -996,20 +995,6 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
---- !u!114 &4345049590846080512
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3242238036003366486}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2560c21bd80e6444a911be7e0ffd72d0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TransformWatcher
-  lastPos: {x: 0, y: 0, z: 0}
-  lastKinematic: 0
 --- !u!54 &6970676024741690333
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1035,7 +1020,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!1 &3353092570651642595
 GameObject:
