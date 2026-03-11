@@ -8,6 +8,8 @@ public class door : Selectable, IFreezable, IResetable
     private Rigidbody rb;
     [SerializeField]
     public Vector3 target;
+    [Header("Motion")]
+    public float moveSpeed = 5f;
 
     private Vector3 movingtarget;
     private Vector3 orgPos;
@@ -70,13 +72,14 @@ public class door : Selectable, IFreezable, IResetable
     protected override void Update()
     {
         base.Update();
-        if(IsFrozen)
-        {
+        // Physics motion handled in FixedUpdate to keep consistent with the physics step.
+    }
 
-        } else
+    private void FixedUpdate()
+    {
+        if (!IsFrozen)
         {
-            rb.MovePosition(Vector3.Lerp(transform.position, movingtarget, 0.02f));
-
+            rb.MovePosition(Vector3.MoveTowards(rb.position, movingtarget, moveSpeed * Time.fixedDeltaTime));
         }
 
     }

@@ -155,6 +155,7 @@ MonoBehaviour:
   ClickTimer: 0
   rb: {fileID: 4571616812081546059}
   target: {x: 0, y: 0, z: 0}
+  moveSpeed: 5
   meshRenderer: {fileID: 1600678874153719293}
 --- !u!65 &168468599711427121
 BoxCollider:
