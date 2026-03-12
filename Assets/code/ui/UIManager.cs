@@ -17,6 +17,8 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         selectLevelGroup.SetActive(false);
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
     public void SelectLevel()
     {
