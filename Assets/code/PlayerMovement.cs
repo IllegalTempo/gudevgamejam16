@@ -50,6 +50,9 @@ public class PlayerMovement : Selectable, IFreezable, IResetable
 
     public bool IsFrozen { get; set; }
     private Vector3 originPosition;
+    [Header("Sounds")]
+    public AudioSource AudioSource;
+    public AudioClip[] CollisionSounds;
 
     void Awake()
     {
@@ -383,6 +386,8 @@ public class PlayerMovement : Selectable, IFreezable, IResetable
 
     private void OnCollisionEnter(Collision collision)
     {
+        int randomindex = Random.Range(0, CollisionSounds.Length);
+        AudioSource.PlayOneShot(CollisionSounds[randomindex]);
         // Consider this collider ground only if any contact has a sufficiently upward normal.
         foreach (ContactPoint contact in collision.contacts)
         {

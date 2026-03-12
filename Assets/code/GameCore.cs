@@ -40,6 +40,11 @@ public class GameCore : MonoBehaviour
     public GameObject endscreengroup;
     public TMP_Text endScreenRecord;
 
+    [Header("Sounds")]
+    public AudioClip freeze_ambient;
+    public AudioClip clicksound;
+
+    
     private void Awake()
     {
         playerInput = new PlayerInput();

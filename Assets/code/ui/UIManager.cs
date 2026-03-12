@@ -4,12 +4,15 @@ using UnityEngine.SceneManagement;
 public class UIManager : MonoBehaviour
 {
     public GameObject selectLevelGroup;
+    public AudioSource audioSource;
+    
 
     private bool levelSelectShown = false;
 
     public void onClick_LevelButton(int scenelevel)
     {
         SceneManager.LoadScene(scenelevel);
+        audioSource.PlayOneShot(GameCore.Instance.clicksound);
     }
     private void Start()
     {

@@ -20,6 +20,7 @@ public class Item : Selectable, IFreezable, IResetable
 
     private Vector3 initpos;
     private Quaternion initRot;
+    public AudioSource source;
     private void Start()
     {
         initpos = transform.position;
@@ -39,6 +40,8 @@ public class Item : Selectable, IFreezable, IResetable
         {
             rb.MovePosition(pickuped.cam.transform.position + pickuped.cam.transform.forward * 10);
         }
+        //when freezed, keep playing gamecore.instance.freeze_ambient
+
     }
     public void onPickUp(PlayerMovement who)
     {
@@ -73,6 +76,7 @@ public class Item : Selectable, IFreezable, IResetable
         }
         IsFrozen = true;
         rb.constraints = RigidbodyConstraints.FreezeAll;
+        source.PlayOneShot(GameCore.Instance.freeze_ambient);
     }
 
     public void onUnfreeze()

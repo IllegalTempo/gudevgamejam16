@@ -17,6 +17,10 @@ public class door : Selectable, IFreezable, IResetable
 
     public MeshRenderer meshRenderer;
     private Material material;
+
+    public AudioSource audioSource;
+    public AudioClip openSound;
+    public AudioClip closeSound;
     public void onFreeze()
     {
         IsFrozen = true;
@@ -62,11 +66,13 @@ public class door : Selectable, IFreezable, IResetable
     public void onOpen()
     {
         movingtarget = orgPos + target;
+        audioSource.PlayOneShot(openSound);
     }
     public void onClose()
     {
 
         movingtarget = orgPos;
+        audioSource.PlayOneShot(closeSound);
 
     }
     protected override void Update()

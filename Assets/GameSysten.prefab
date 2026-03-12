@@ -2630,6 +2630,8 @@ MonoBehaviour:
   timerText: {fileID: 4388055121314570371}
   endscreengroup: {fileID: 4897343101416373921}
   endScreenRecord: {fileID: 312668689318581777}
+  freeze_ambient: {fileID: 8300000, guid: 35be3dae07513bb439872557c9891894, type: 3}
+  clicksound: {fileID: 8300000, guid: 0dfd5caf6cfbc264687097f4d7b61cb4, type: 3}
 --- !u!1 &6365426759628366730
 GameObject:
   m_ObjectHideFlags: 0
