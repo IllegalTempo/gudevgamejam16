@@ -12,10 +12,9 @@ public class goal : MonoBehaviour,IResetable
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.GetComponent<PlayerMovement>() != alreadyenteredplayer)
+        if(other.GetComponent<PlayerMovement>() != null)
         {
             goalplayer++;
-            alreadyenteredplayer = other.GetComponent<PlayerMovement>();
             if (goalplayer >= 2)
             {
                 SceneSystem sceneSystem = FindFirstObjectByType<SceneSystem>();
@@ -24,6 +23,13 @@ public class goal : MonoBehaviour,IResetable
             {
                 GameCore.Instance.displayStatusText("One timeline has reached the goal, the other timeline also needs to reach");
             }
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if(other.GetComponent<PlayerMovement>() != null)
+        {
+            goalplayer--;
         }
     }
 }

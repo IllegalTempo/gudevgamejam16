@@ -39,6 +39,16 @@ public class SceneSystem : MonoBehaviour
         GameCore.Instance.endScreenRecord.text = $"Clock Elapsed: {levelTimer:00.##} seconds";
         //go back to main screen after 5 seconds
         Invoke("GoToMainMenu", 5f);
+        //get current scene index
+        int currentSceneIndex = UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex;
+        float currentrecord = PlayerPrefs.GetFloat(currentSceneIndex + "_record",999999);
+        if(levelTimer < currentrecord)
+        {
+            PlayerPrefs.SetFloat(currentSceneIndex + "_record", levelTimer);
+        }
+
+
+            
 
     }
     public void GoToMainMenu()

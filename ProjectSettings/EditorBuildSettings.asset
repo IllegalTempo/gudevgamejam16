@@ -17,6 +17,21 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/level_Doors.unity
     guid: 162ae7bee9790eb4ab75978fd6a95dee
+  - enabled: 1
+    path: Assets/Scenes/level_Boxes.unity
+    guid: 55220c71b47364348811735b703ec9cf
+  - enabled: 1
+    path: Assets/Scenes/level_Freeze.unity
+    guid: 2fd2c502c47990847b074aa8538841c1
+  - enabled: 1
+    path: Assets/Scenes/level_Jump.unity
+    guid: cd518cf2f8417294eb9201ba9c66ac0e
+  - enabled: 1
+    path: Assets/Scenes/level_Push.unity
+    guid: 5f35a91335043f347b67bd1481cd550d
+  - enabled: 1
+    path: Assets/Scenes/level_Thaw.unity
+    guid: bd72d57f9ee748240a8c0d5339481ace
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
