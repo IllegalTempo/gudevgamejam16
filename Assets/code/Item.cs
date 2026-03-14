@@ -21,6 +21,8 @@ public class Item : Selectable, IFreezable, IResetable
     private Vector3 initpos;
     private Quaternion initRot;
     public AudioSource source;
+
+    public ParticleSystem pickupeffect;
     private void Start()
     {
         initpos = transform.position;
@@ -54,6 +56,7 @@ public class Item : Selectable, IFreezable, IResetable
         //rb.isKinematic = true;
         isPickedUp = true;
         pickuped = who;
+        pickupeffect.gameObject.SetActive(true);
     }
 
     public void onDrop()
@@ -63,6 +66,8 @@ public class Item : Selectable, IFreezable, IResetable
         //rb.isKinematic = false;
         isPickedUp = false;
         pickuped = null;
+        pickupeffect.gameObject.SetActive(false);
+
 
 
     }

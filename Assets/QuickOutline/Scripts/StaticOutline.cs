@@ -80,10 +80,10 @@ public class StaticOutline : MonoBehaviour {
 
   private bool needsUpdate;
 
-  void Awake() {
+    void Awake() {
 
-    // Cache renderers
-    renderers = GetComponentsInChildren<Renderer>();
+    // Cache renderers, but exclude particle system renderers so outlines aren't applied to particles
+    renderers = GetComponentsInChildren<Renderer>().Where(r => !(r is ParticleSystemRenderer)).ToArray();
 
     // Instantiate outline materials
     outlineMaskMaterial = Instantiate(Resources.Load<Material>(@"Materials/OutlineMask"));

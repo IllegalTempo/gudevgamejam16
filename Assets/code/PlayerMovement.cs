@@ -54,6 +54,7 @@ public class PlayerMovement : Selectable, IFreezable, IResetable
     public AudioSource AudioSource;
     public AudioClip[] CollisionSounds;
 
+    public ParticleSystem effect_walk;
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -119,6 +120,7 @@ public class PlayerMovement : Selectable, IFreezable, IResetable
     void OnDisable()
     {
         animator.SetFloat("speed", 0f);
+        effect_walk.gameObject.SetActive(false);
         unregister();
     }
 
@@ -425,6 +427,8 @@ public class PlayerMovement : Selectable, IFreezable, IResetable
         //    rb.AddForce(airVelocity, ForceMode.Force);
         //}
         Vector3 targetVelocity = moveDirection * currentSpeed;
+            effect_walk.gameObject.SetActive(targetVelocity.magnitude > 0.1);
+
         targetVelocity.y = rb.linearVelocity.y;
         rb.linearVelocity = targetVelocity;
         float targetSpeed = Mathf.Min(rb.linearVelocity.magnitude / walkSpeed, 1f);
@@ -478,10 +482,12 @@ public class PlayerMovement : Selectable, IFreezable, IResetable
         resetUI();
         if(gameObject.name == "Player")
         {
-            EnablePlayer();
-        } else
+            togglePlayerElements(true);
+
+        }
+        else
         {
-            DisablePlayer();
+            togglePlayerElements(false);
         }
     }
 }

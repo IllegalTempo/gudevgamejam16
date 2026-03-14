@@ -21,6 +21,8 @@ public class door : Selectable, IFreezable, IResetable
     public AudioSource audioSource;
     public AudioClip openSound;
     public AudioClip closeSound;
+
+    
     public void onFreeze()
     {
         IsFrozen = true;
