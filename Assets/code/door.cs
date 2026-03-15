@@ -85,7 +85,7 @@ public class door : Selectable, IFreezable, IResetable
 
     private void FixedUpdate()
     {
-        if (!IsFrozen)
+        if (!IsFrozen && Vector3.Distance(rb.position,movingtarget) > 1)
         {
             rb.MovePosition(Vector3.MoveTowards(rb.position, movingtarget, moveSpeed * Time.fixedDeltaTime));
         }

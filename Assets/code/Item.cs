@@ -100,4 +100,15 @@ public class Item : Selectable, IFreezable, IResetable
         transform.rotation = initRot;
         
     }
+    private void OnTriggerEnter(Collider collision)
+    {
+        if(collision.gameObject.GetComponent<Item>() != null)
+        {
+            //repulse each other
+            Vector3 dir = (collision.transform.position - transform.position).normalized;
+            rb.AddForce(-dir * 15, ForceMode.Impulse);
+
+
+        }
+    }
 }
