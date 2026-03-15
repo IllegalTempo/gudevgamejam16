@@ -1209,6 +1209,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 371905612794509239, guid: ebec9d09f9cdb38438788dc027511ab5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.0192
+      objectReference: {fileID: 0}
     - target: {fileID: 467789593420787346, guid: ebec9d09f9cdb38438788dc027511ab5, type: 3}
       propertyPath: m_LocalScale.x
       value: 1031.4525
@@ -1264,6 +1268,10 @@ PrefabInstance:
     - target: {fileID: 952014912019248168, guid: ebec9d09f9cdb38438788dc027511ab5, type: 3}
       propertyPath: m_Name
       value: door
+      objectReference: {fileID: 0}
+    - target: {fileID: 1227670225777165308, guid: ebec9d09f9cdb38438788dc027511ab5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.0395
       objectReference: {fileID: 0}
     - target: {fileID: 7664352413354635442, guid: ebec9d09f9cdb38438788dc027511ab5, type: 3}
       propertyPath: target.x

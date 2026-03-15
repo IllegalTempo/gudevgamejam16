@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
-using static UnityEditor.Progress;
 
 public class PlayerMovement : Selectable, IFreezable, IResetable
 {
